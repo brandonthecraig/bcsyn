@@ -10,17 +10,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-
-
-import javax.swing.*;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 public class BowsApiServiceTest {
-
 
     @InjectMocks
     BowsApiService bowsApiService;
@@ -29,8 +23,20 @@ public class BowsApiServiceTest {
     EmployeeDataRepository employeeDataRepository;
 
     @Test(expected = IDFormatException.class)
-    public void whenCheckIfRegisteredPassedAnInorrectlyFormattedId_thenExceptionIsThrown() throws IDFormatException{
+    public void whenCheckIfRegisteredPassedATooShortId_thenExceptionIsThrown() throws IDFormatException{
         String id = "192O192";
+        bowsApiService.checkIfRegistered(id);
+    }
+
+    @Test(expected = IDFormatException.class)
+    public void whenCheckIfRegisteredPassedATooLongId_thenExceptionIsThrown() throws IDFormatException{
+        String id = "192O19asdfasdfawerzxcvaer2";
+        bowsApiService.checkIfRegistered(id);
+    }
+
+    @Test(expected = IDFormatException.class)
+    public void whenCheckIfRegisteredPassedARightSizedIdContainingNonAlphaNumericCharacters_thenExceptionIsThrown() throws IDFormatException{
+        String id = "ksnwield9382!!";
         bowsApiService.checkIfRegistered(id);
     }
 
