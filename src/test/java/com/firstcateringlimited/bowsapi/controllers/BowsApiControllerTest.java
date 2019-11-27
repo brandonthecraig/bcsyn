@@ -1,7 +1,10 @@
 package com.firstcateringlimited.bowsapi.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.firstcateringlimited.bowsapi.models.NewEmployeeData;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import com.firstcateringlimited.bowsapi.services.BowsApiService;
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -15,6 +18,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.ContentResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -29,8 +34,10 @@ public class BowsApiControllerTest {
     @MockBean
     BowsApiService bowsApiServiceMock;
 
+    private Gson gson = new Gson();
+
     @Test
-    public void testEndSessionApiReturnsExpectedResultes() throws Exception {
+    public void whenEndSessionApiCalled_thenReturnsExpectedResults() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/endsession").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.endSession").value("true"))
@@ -38,13 +45,38 @@ public class BowsApiControllerTest {
     }
 
     @Test
-    public void testCheckIfRegisteredApiReturnHasNeededFields() throws Exception {
+    public void whenRegisteredCheckApiCalled_thenReturnHasNeededFields() throws Exception {
         Mockito.when(bowsApiServiceMock.checkIfRegistered("123")).thenReturn(new RegisteredCheckResponse());
 
         mvc.perform(MockMvcRequestBuilders.get("/registeredcheck/123").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.registrationVerified").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.welcomeMessage").isEmpty());
+    }
+
+    @Test
+    public void whenRegisterCardApiCalledWithCorrectlyFormattedJson_thenReturnsExpectedResults() throws Exception {
+        String json = gson.toJson(buildNewEmployeeData());
+
+        doNothing().when(bowsApiServiceMock).registerNewEmployeeId(isA(NewEmployeeData.class));
+        mvc.perform(MockMvcRequestBuilders.post("/registercard")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(json)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding("utf-8"))
+                    .andExpect(status().isAccepted());
+
+    }
+    
+    public NewEmployeeData buildNewEmployeeData(){
+        NewEmployeeData newEmployeeData = new NewEmployeeData();
+        newEmployeeData.setId("ajsiwkd938euri");
+        newEmployeeData.setEmail("test@test.ca");
+        newEmployeeData.setFirstName("FirstTest");
+        newEmployeeData.setLastName("LastTest");
+        newEmployeeData.setMobileNumber("3282944");
+        newEmployeeData.setPin(333);
+        return newEmployeeData;
     }
 
 

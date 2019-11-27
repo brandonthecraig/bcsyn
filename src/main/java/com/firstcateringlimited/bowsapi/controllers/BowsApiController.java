@@ -30,7 +30,7 @@ public class BowsApiController {
         return new ResponseEntity<>(bowsApiService.checkIfRegistered(employeeId), HttpStatus.OK);
     }
 
-    @PostMapping (value = "registercard")
+    @PostMapping (value = "registercard", consumes = "application/json", produces = "application/json")
     public ResponseEntity<RegisterCardResponse> registerNewEmployeeId(
             @Valid
             @RequestBody NewEmployeeData newEmployeeData
