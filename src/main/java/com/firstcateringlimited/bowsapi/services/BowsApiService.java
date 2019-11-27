@@ -3,11 +3,14 @@ package com.firstcateringlimited.bowsapi.services;
 import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
-import com.firstcateringlimited.bowsapi.models.NewEmployeeData;
+import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePINRepository;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePersonalDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
+import com.firstcateringlimited.bowsapi.responses.SignInResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -49,25 +52,34 @@ public class BowsApiService {
         }
     }
 
-    public void registerNewEmployeeId(NewEmployeeData newEmployeeData) {
-        employeePersonalDataRepository.saveAndFlush(createEmployeePersonalDataEntity(newEmployeeData));
-        employeePINRepository.saveAndFlush(createEmployeePINEntity(newEmployeeData));
+    public void registerNewEmployeeId(NewEmployeeModel newEmployeeModel) {
+        employeePersonalDataRepository.saveAndFlush(createEmployeePersonalDataEntity(newEmployeeModel));
+        employeePINRepository.saveAndFlush(createEmployeePINEntity(newEmployeeModel));
     }
 
-    private EmployeePersonalDataEntity createEmployeePersonalDataEntity (NewEmployeeData newEmployeeData) {
+    private EmployeePersonalDataEntity createEmployeePersonalDataEntity (NewEmployeeModel newEmployeeModel) {
         EmployeePersonalDataEntity employeePersonalDataEntity = new EmployeePersonalDataEntity();
-        employeePersonalDataEntity.setId(newEmployeeData.getId());
-        employeePersonalDataEntity.setFirst_name(newEmployeeData.getFirstName());
-        employeePersonalDataEntity.setLast_name(newEmployeeData.getLastName());
-        employeePersonalDataEntity.setEmail(newEmployeeData.getEmail());
-        employeePersonalDataEntity.setMobile_number(newEmployeeData.getMobileNumber());
+        employeePersonalDataEntity.setId(newEmployeeModel.getId());
+        employeePersonalDataEntity.setFirst_name(newEmployeeModel.getFirstName());
+        employeePersonalDataEntity.setLast_name(newEmployeeModel.getLastName());
+        employeePersonalDataEntity.setEmail(newEmployeeModel.getEmail());
+        employeePersonalDataEntity.setMobile_number(newEmployeeModel.getMobileNumber());
         return employeePersonalDataEntity;
     }
 
-    private EmployeePINEntity createEmployeePINEntity (NewEmployeeData newEmployeeData) {
+    private EmployeePINEntity createEmployeePINEntity (NewEmployeeModel newEmployeeModel) {
         EmployeePINEntity employeePINEntity = new EmployeePINEntity();
-        employeePINEntity.setId(newEmployeeData.getId());
-        employeePINEntity.setPin(newEmployeeData.getPin());
+        employeePINEntity.setId(newEmployeeModel.getId());
+        employeePINEntity.setPin(newEmployeeModel.getPin());
         return employeePINEntity;
+    }
+
+    public ResponseEntity<SignInResponse> signIn(EmployeePINEntity employeePINEntity) {
+        // make a call to the repository using employee Pin from entity
+        // compare with the employeePINEntity passed in
+        // format response based on that and return it
+
+
+        return new ResponseEntity<>(new SignInResponse(), HttpStatus.ACCEPTED);
     }
 }

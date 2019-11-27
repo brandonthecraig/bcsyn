@@ -2,6 +2,7 @@ package com.firstcateringlimited.bowsapi.services;
 
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
+import com.firstcateringlimited.bowsapi.repositories.EmployeePINRepository;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePersonalDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import org.junit.Test;
@@ -21,6 +22,9 @@ public class BowsApiServiceTest {
 
     @Mock
     EmployeePersonalDataRepository employeePersonalDataRepository;
+
+    @Mock
+    EmployeePINRepository employeePINRepository;
 
     @Test(expected = IDFormatException.class)
     public void whenCheckIfRegisteredPassedATooShortId_thenExceptionIsThrown() throws IDFormatException{
@@ -71,4 +75,6 @@ public class BowsApiServiceTest {
         Assertions.assertTrue(results.isRegistrationVerified());
         Assertions.assertTrue(results.getWelcomeMessage().equals(expectedMessage));
     }
+
+
 }

@@ -1,7 +1,6 @@
 package com.firstcateringlimited.bowsapi.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.firstcateringlimited.bowsapi.models.NewEmployeeData;
+import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import com.firstcateringlimited.bowsapi.services.BowsApiService;
 import com.google.gson.Gson;
@@ -21,8 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.ContentResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(BowsApiController.class)
@@ -58,7 +55,7 @@ public class BowsApiControllerTest {
     public void whenRegisterCardApiCalledWithCorrectlyFormattedJson_thenReturnsExpectedResults() throws Exception {
         String json = gson.toJson(buildNewEmployeeData());
 
-        doNothing().when(bowsApiServiceMock).registerNewEmployeeId(isA(NewEmployeeData.class));
+        doNothing().when(bowsApiServiceMock).registerNewEmployeeId(isA(NewEmployeeModel.class));
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
                     .accept(MediaType.APPLICATION_JSON)
                     .content(json)
@@ -69,9 +66,9 @@ public class BowsApiControllerTest {
 
     @Test
     public void whenRegisterCardApiCalledWithIdWithTooShortOfString_thenReturnsBadRequest() throws Exception {
-        NewEmployeeData newEmployeeData = buildNewEmployeeData();
-        newEmployeeData.setId("a28keidsdnbes");
-        String json = gson.toJson(newEmployeeData);
+        NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
+        newEmployeeModel.setId("a28keidsdnbes");
+        String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -83,9 +80,9 @@ public class BowsApiControllerTest {
 
     @Test
     public void whenRegisterCardApiCalledWithIdWithTooLongOfString_thenReturnsBadRequest() throws Exception {
-        NewEmployeeData newEmployeeData = buildNewEmployeeData();
-        newEmployeeData.setId("a28keasdfasdfasdfweidsdnbes");
-        String json = gson.toJson(newEmployeeData);
+        NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
+        newEmployeeModel.setId("a28keasdfasdfasdfweidsdnbes");
+        String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -97,9 +94,9 @@ public class BowsApiControllerTest {
 
     @Test
     public void whenRegisterCardApiCalledWithIdWithRightLengthButNonAlphaNumericCharacters_thenReturnsBadRequest() throws Exception {
-        NewEmployeeData newEmployeeData = buildNewEmployeeData();
-        newEmployeeData.setId("!andkeilsowp29");
-        String json = gson.toJson(newEmployeeData);
+        NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
+        newEmployeeModel.setId("!andkeilsowp29");
+        String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -111,9 +108,9 @@ public class BowsApiControllerTest {
 
     @Test
     public void whenRegisterCardApiCalledWithBadEmail_thenReturnsBadRequest() throws Exception {
-        NewEmployeeData newEmployeeData = buildNewEmployeeData();
-        newEmployeeData.setEmail("not a real email");
-        String json = gson.toJson(newEmployeeData);
+        NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
+        newEmployeeModel.setEmail("not a real email");
+        String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -125,9 +122,9 @@ public class BowsApiControllerTest {
 
     @Test
     public void whenRegisterCardApiCalledWithFiveDigitPin_thenReturnsBadRequest() throws Exception {
-        NewEmployeeData newEmployeeData = buildNewEmployeeData();
-        newEmployeeData.setPin(10000);
-        String json = gson.toJson(newEmployeeData);
+        NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
+        newEmployeeModel.setPin(10000);
+        String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -139,9 +136,9 @@ public class BowsApiControllerTest {
 
     @Test
     public void whenRegisterCardApiCalledWithMobileNumberWithLetters_thenReturnsBadRequest() throws Exception {
-        NewEmployeeData newEmployeeData = buildNewEmployeeData();
-        newEmployeeData.setMobileNumber("29384akdnf28437");
-        String json = gson.toJson(newEmployeeData);
+        NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
+        newEmployeeModel.setMobileNumber("29384akdnf28437");
+        String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
                 .accept(MediaType.APPLICATION_JSON)
@@ -151,15 +148,15 @@ public class BowsApiControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    public NewEmployeeData buildNewEmployeeData(){
-        NewEmployeeData newEmployeeData = new NewEmployeeData();
-        newEmployeeData.setId("ajsiwkd938euri");
-        newEmployeeData.setEmail("test@test.ca");
-        newEmployeeData.setFirstName("FirstTest");
-        newEmployeeData.setLastName("LastTest");
-        newEmployeeData.setMobileNumber("3282944");
-        newEmployeeData.setPin(333);
-        return newEmployeeData;
+    public NewEmployeeModel buildNewEmployeeData(){
+        NewEmployeeModel newEmployeeModel = new NewEmployeeModel();
+        newEmployeeModel.setId("ajsiwkd938euri");
+        newEmployeeModel.setEmail("test@test.ca");
+        newEmployeeModel.setFirstName("FirstTest");
+        newEmployeeModel.setLastName("LastTest");
+        newEmployeeModel.setMobileNumber("3282944");
+        newEmployeeModel.setPin(333);
+        return newEmployeeModel;
     }
 
 

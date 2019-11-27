@@ -1,10 +1,12 @@
 package com.firstcateringlimited.bowsapi.controllers;
 
+import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
-import com.firstcateringlimited.bowsapi.models.NewEmployeeData;
+import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.responses.EndSessionResponse;
 import com.firstcateringlimited.bowsapi.responses.RegisterCardResponse;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
+import com.firstcateringlimited.bowsapi.responses.SignInResponse;
 import com.firstcateringlimited.bowsapi.services.BowsApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,10 +35,18 @@ public class BowsApiController {
     @PostMapping (value = "registercard", consumes = "application/json", produces = "application/json")
     public ResponseEntity<RegisterCardResponse> registerNewEmployeeId(
             @Valid
-            @RequestBody NewEmployeeData newEmployeeData
+            @RequestBody NewEmployeeModel newEmployeeModel
     ) {
-        bowsApiService.registerNewEmployeeId(newEmployeeData);
+        bowsApiService.registerNewEmployeeId(newEmployeeModel);
         return new ResponseEntity<>(new RegisterCardResponse(), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping (value = "signin", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<SignInResponse> signInEmployee(
+//            @Valid
+            @RequestBody EmployeePINEntity employeePINEntity
+            ){
+        return bowsApiService.signIn(employeePINEntity);
     }
 
 

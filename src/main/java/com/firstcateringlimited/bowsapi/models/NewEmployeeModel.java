@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.*;
 
 @Data
-public class NewEmployeeData {
+public class NewEmployeeModel {
 
     @NotNull
     @Size(max = 14, min = 14, message = "Employee Id can only be 14 characters long")
