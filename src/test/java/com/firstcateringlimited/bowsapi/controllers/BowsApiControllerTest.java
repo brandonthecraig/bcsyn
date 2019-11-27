@@ -65,9 +65,92 @@ public class BowsApiControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding("utf-8"))
                     .andExpect(status().isAccepted());
-
     }
-    
+
+    @Test
+    public void whenRegisterCardApiCalledWithIdWithTooShortOfString_thenReturnsBadRequest() throws Exception {
+        NewEmployeeData newEmployeeData = buildNewEmployeeData();
+        newEmployeeData.setId("a28keidsdnbes");
+        String json = gson.toJson(newEmployeeData);
+
+        mvc.perform(MockMvcRequestBuilders.post("/registercard")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenRegisterCardApiCalledWithIdWithTooLongOfString_thenReturnsBadRequest() throws Exception {
+        NewEmployeeData newEmployeeData = buildNewEmployeeData();
+        newEmployeeData.setId("a28keasdfasdfasdfweidsdnbes");
+        String json = gson.toJson(newEmployeeData);
+
+        mvc.perform(MockMvcRequestBuilders.post("/registercard")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenRegisterCardApiCalledWithIdWithRightLengthButNonAlphaNumericCharacters_thenReturnsBadRequest() throws Exception {
+        NewEmployeeData newEmployeeData = buildNewEmployeeData();
+        newEmployeeData.setId("!andkeilsowp29");
+        String json = gson.toJson(newEmployeeData);
+
+        mvc.perform(MockMvcRequestBuilders.post("/registercard")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenRegisterCardApiCalledWithBadEmail_thenReturnsBadRequest() throws Exception {
+        NewEmployeeData newEmployeeData = buildNewEmployeeData();
+        newEmployeeData.setEmail("not a real email");
+        String json = gson.toJson(newEmployeeData);
+
+        mvc.perform(MockMvcRequestBuilders.post("/registercard")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenRegisterCardApiCalledWithFiveDigitPin_thenReturnsBadRequest() throws Exception {
+        NewEmployeeData newEmployeeData = buildNewEmployeeData();
+        newEmployeeData.setPin(10000);
+        String json = gson.toJson(newEmployeeData);
+
+        mvc.perform(MockMvcRequestBuilders.post("/registercard")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void whenRegisterCardApiCalledWithMobileNumberWithLetters_thenReturnsBadRequest() throws Exception {
+        NewEmployeeData newEmployeeData = buildNewEmployeeData();
+        newEmployeeData.setMobileNumber("29384akdnf28437");
+        String json = gson.toJson(newEmployeeData);
+
+        mvc.perform(MockMvcRequestBuilders.post("/registercard")
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8"))
+                .andExpect(status().isBadRequest());
+    }
+
     public NewEmployeeData buildNewEmployeeData(){
         NewEmployeeData newEmployeeData = new NewEmployeeData();
         newEmployeeData.setId("ajsiwkd938euri");
