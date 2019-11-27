@@ -52,9 +52,6 @@ public class BowsApiService {
     public void registerNewEmployeeId(NewEmployeeData newEmployeeData) {
         employeePersonalDataRepository.saveAndFlush(createEmployeePersonalDataEntity(newEmployeeData));
         employeePINRepository.saveAndFlush(createEmployeePINEntity(newEmployeeData));
-        // set up a new EPinEntity from data
-        // enter it into repository
-        // checks? what happens if this fails. Checks done at model level
     }
 
     private EmployeePersonalDataEntity createEmployeePersonalDataEntity (NewEmployeeData newEmployeeData) {

@@ -26,7 +26,7 @@ public class BowsApiController {
     @GetMapping (value = "registeredcheck/{employeeId}")
     public ResponseEntity<RegisteredCheckResponse> checkIfRegistered(
             @PathVariable("employeeId") String employeeId) throws IDFormatException {
-        return new ResponseEntity<>(bowsApiService.checkIfRegistered(employeeId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(bowsApiService.checkIfRegistered(employeeId), HttpStatus.OK);
     }
 
     @PostMapping (value = "registercard")
@@ -35,8 +35,7 @@ public class BowsApiController {
             @RequestBody NewEmployeeData newEmployeeData
     ) {
         bowsApiService.registerNewEmployeeId(newEmployeeData);
-
-        return new ResponseEntity<>("Registration Complete", HttpStatus.OK);
+        return new ResponseEntity<>("Registration Complete", HttpStatus.ACCEPTED);
     }
 
 
