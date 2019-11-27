@@ -46,6 +46,22 @@ public class BowsApiService {
         employeePINRepository.saveAndFlush(createEmployeePINEntity(newEmployeeModel));
     }
 
+    public ResponseEntity<SignInResponse> signIn(EmployeePINEntity employeePINEntity) {
+        Optional<EmployeePINEntity> dbEntity = employeePINRepository.findById(employeePINEntity.getId());
+
+
+        // check if optional is empty, means that the person has not registered
+
+        // if not empty follow the path
+
+        // make a call to the repository using employee Pin from entity
+        // compare with the employeePINEntity passed in
+        // format response based on that and return it
+
+
+        return new ResponseEntity<>(new SignInResponse(), HttpStatus.ACCEPTED);
+    }
+
     private EmployeePersonalDataEntity createEmployeePersonalDataEntity (NewEmployeeModel newEmployeeModel) {
         EmployeePersonalDataEntity employeePersonalDataEntity = new EmployeePersonalDataEntity();
         employeePersonalDataEntity.setId(newEmployeeModel.getId());
@@ -63,19 +79,5 @@ public class BowsApiService {
         return employeePINEntity;
     }
 
-    public ResponseEntity<SignInResponse> signIn(EmployeePINEntity employeePINEntity) {
-        Optional<EmployeePINEntity> dbEntity = employeePINRepository.findById(employeePINEntity.getId());
 
-
-        // check if optional is empty, means that the person has not registered
-
-        // if not empty follow the path
-
-        // make a call to the repository using employee Pin from entity
-        // compare with the employeePINEntity passed in
-        // format response based on that and return it
-
-
-        return new ResponseEntity<>(new SignInResponse(), HttpStatus.ACCEPTED);
-    }
 }
