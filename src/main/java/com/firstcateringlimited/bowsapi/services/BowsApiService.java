@@ -7,6 +7,7 @@ import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePINRepository;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePersonalDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
+import com.firstcateringlimited.bowsapi.responses.ResponseHelperClass;
 import com.firstcateringlimited.bowsapi.responses.SignInResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,26 +25,14 @@ public class BowsApiService {
     @Autowired
     private EmployeePINRepository employeePINRepository;
 
+    @Autowired
+    private ResponseHelperClass responseHelperClass;
+
 
     public RegisteredCheckResponse checkIfRegistered(String employeeId) throws IDFormatException {
         checkFormatOfId(employeeId);
         Optional <EmployeePersonalDataEntity> employeeDataEntity = employeePersonalDataRepository.findById(employeeId);
-        return formatRegisteredCheckResponse(employeeDataEntity);
-    }
-
-    private RegisteredCheckResponse formatRegisteredCheckResponse(Optional<EmployeePersonalDataEntity> employeeDataEntity) {
-        RegisteredCheckResponse registeredCheckResponse = new RegisteredCheckResponse();
-        if (employeeDataEntity.isPresent()){
-            registeredCheckResponse.setRegistrationVerified(true);
-            registeredCheckResponse.setWelcomeMessage("Hello "
-                    + employeeDataEntity.get().getFirst_name()
-                    + ". Please enter your four digit PIN");
-        }
-        else {
-            registeredCheckResponse.setRegistrationVerified(false);
-            registeredCheckResponse.setWelcomeMessage("Card not registered. Please enter your registration details now.");
-        }
-        return registeredCheckResponse;
+        return responseHelperClass.formatRegisteredCheckResponse(employeeDataEntity);
     }
 
     private void checkFormatOfId (String id) throws IDFormatException {
@@ -75,6 +64,13 @@ public class BowsApiService {
     }
 
     public ResponseEntity<SignInResponse> signIn(EmployeePINEntity employeePINEntity) {
+        Optional<EmployeePINEntity> dbEntity = employeePINRepository.findById(employeePINEntity.getId());
+
+
+        // check if optional is empty, means that the person has not registered
+
+        // if not empty follow the path
+
         // make a call to the repository using employee Pin from entity
         // compare with the employeePINEntity passed in
         // format response based on that and return it
