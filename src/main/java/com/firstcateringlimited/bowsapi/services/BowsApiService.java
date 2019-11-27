@@ -1,8 +1,10 @@
 package com.firstcateringlimited.bowsapi.services;
 
+import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
 import com.firstcateringlimited.bowsapi.models.NewEmployeeData;
+import com.firstcateringlimited.bowsapi.repositories.EmployeePINRepository;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePersonalDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class BowsApiService {
 
     @Autowired
     private EmployeePersonalDataRepository employeePersonalDataRepository;
+
+    @Autowired
+    private EmployeePINRepository employeePINRepository;
 
 
     public RegisteredCheckResponse checkIfRegistered(String employeeId) throws IDFormatException {
@@ -45,16 +50,14 @@ public class BowsApiService {
     }
 
     public void registerNewEmployeeId(NewEmployeeData newEmployeeData) {
-        employeePersonalDataRepository.saveAndFlush(entityCreator(newEmployeeData));
-        // set up a new EDEntity from data
-        // enter it into repository
+        employeePersonalDataRepository.saveAndFlush(createEmployeePersonalDataEntity(newEmployeeData));
+        employeePINRepository.saveAndFlush(createEmployeePINEntity(newEmployeeData));
         // set up a new EPinEntity from data
         // enter it into repository
         // checks? what happens if this fails. Checks done at model level
-        // what happens if it tries to reregister?
     }
 
-    public EmployeePersonalDataEntity entityCreator(NewEmployeeData newEmployeeData) {
+    private EmployeePersonalDataEntity createEmployeePersonalDataEntity (NewEmployeeData newEmployeeData) {
         EmployeePersonalDataEntity employeePersonalDataEntity = new EmployeePersonalDataEntity();
         employeePersonalDataEntity.setId(newEmployeeData.getId());
         employeePersonalDataEntity.setFirst_name(newEmployeeData.getFirstName());
@@ -62,5 +65,12 @@ public class BowsApiService {
         employeePersonalDataEntity.setEmail(newEmployeeData.getEmail());
         employeePersonalDataEntity.setMobile_number(newEmployeeData.getMobileNumber());
         return employeePersonalDataEntity;
+    }
+
+    private EmployeePINEntity createEmployeePINEntity (NewEmployeeData newEmployeeData) {
+        EmployeePINEntity employeePINEntity = new EmployeePINEntity();
+        employeePINEntity.setId(newEmployeeData.getId());
+        employeePINEntity.setPin(newEmployeeData.getPin());
+        return employeePINEntity;
     }
 }

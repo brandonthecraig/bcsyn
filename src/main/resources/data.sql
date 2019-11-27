@@ -6,3 +6,10 @@ CREATE TABLE IF NOT EXISTS employee_info (
                               mobile_number VARCHAR(250) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS employee_pin (
+                              id VARCHAR(16)  PRIMARY KEY NOT NULL,
+                              pin int NOT NULL,
+                              CHECK (pin>=0 AND pin <= 9999)
+
+);
+
