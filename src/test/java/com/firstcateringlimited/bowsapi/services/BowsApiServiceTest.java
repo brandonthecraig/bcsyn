@@ -1,6 +1,6 @@
 package com.firstcateringlimited.bowsapi.services;
 
-import com.firstcateringlimited.bowsapi.entities.EmployeeDataEntity;
+import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
 import com.firstcateringlimited.bowsapi.repositories.EmployeeDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
@@ -42,7 +42,7 @@ public class BowsApiServiceTest {
 
     @Test
     public void whenCheckIfRegisteredPassedACorrectlyFormattedIdThatReturnsEmptyOptional_thenTheReturnedResponseReturnsFalseValues() throws IDFormatException{
-        Optional<EmployeeDataEntity> repositoryResponse = Optional.empty();
+        Optional<EmployeePersonalDataEntity> repositoryResponse = Optional.empty();
         String id = "asdfjklpqwerui";
         String expectedMessage = "Card not registered. Please enter your registration details now.";
 
@@ -56,12 +56,12 @@ public class BowsApiServiceTest {
 
     @Test
     public void whenCheckIfRegisteredPassedACorrectlyFormattedIdThatReturnsAnEntity_thenTheReturnedResponseReturnsATrueValues() throws IDFormatException{
-        EmployeeDataEntity employeeDataEntity = new EmployeeDataEntity();
-        employeeDataEntity.setFirst_name("Amy");
-        Optional<EmployeeDataEntity> repositoryResponse = Optional.of(employeeDataEntity);
+        EmployeePersonalDataEntity employeePersonalDataEntity = new EmployeePersonalDataEntity();
+        employeePersonalDataEntity.setFirst_name("Amy");
+        Optional<EmployeePersonalDataEntity> repositoryResponse = Optional.of(employeePersonalDataEntity);
         String id = "asdfjklpqwerui";
         String expectedMessage = "Hello "
-                + employeeDataEntity.getFirst_name()
+                + employeePersonalDataEntity.getFirst_name()
                 + ". Please enter your four digit PIN";
 
         Mockito.when(employeeDataRepository.findById(id)).thenReturn(repositoryResponse);
