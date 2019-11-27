@@ -1,6 +1,5 @@
 package com.firstcateringlimited.bowsapi.responses;
 
-import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

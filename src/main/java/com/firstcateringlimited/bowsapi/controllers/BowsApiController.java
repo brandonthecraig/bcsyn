@@ -43,7 +43,7 @@ public class BowsApiController {
 
     @PostMapping (value = "signin", consumes = "application/json", produces = "application/json")
     public ResponseEntity<SignInResponse> signInEmployee(
-//            @Valid
+            @Valid
             @RequestBody EmployeePINEntity employeePINEntity
             ){
         return bowsApiService.signIn(employeePINEntity);
