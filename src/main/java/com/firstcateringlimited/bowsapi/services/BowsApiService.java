@@ -3,7 +3,7 @@ package com.firstcateringlimited.bowsapi.services;
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
 import com.firstcateringlimited.bowsapi.models.NewEmployeeData;
-import com.firstcateringlimited.bowsapi.repositories.EmployeeDataRepository;
+import com.firstcateringlimited.bowsapi.repositories.EmployeePersonalDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,12 @@ import java.util.Optional;
 public class BowsApiService {
 
     @Autowired
-    private EmployeeDataRepository employeeDataRepository;
+    private EmployeePersonalDataRepository employeePersonalDataRepository;
 
 
     public RegisteredCheckResponse checkIfRegistered(String employeeId) throws IDFormatException {
         checkFormatOfId(employeeId);
-        Optional <EmployeePersonalDataEntity> employeeDataEntity = employeeDataRepository.findById(employeeId);
+        Optional <EmployeePersonalDataEntity> employeeDataEntity = employeePersonalDataRepository.findById(employeeId);
         return formatRegisteredCheckResponse(employeeDataEntity);
     }
 
@@ -45,7 +45,7 @@ public class BowsApiService {
     }
 
     public void registerNewEmployeeId(NewEmployeeData newEmployeeData) {
-        employeeDataRepository.saveAndFlush(entityCreator(newEmployeeData));
+        employeePersonalDataRepository.saveAndFlush(entityCreator(newEmployeeData));
         // set up a new EDEntity from data
         // enter it into repository
         // set up a new EPinEntity from data

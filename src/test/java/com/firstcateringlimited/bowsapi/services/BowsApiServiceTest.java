@@ -2,7 +2,7 @@ package com.firstcateringlimited.bowsapi.services;
 
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
-import com.firstcateringlimited.bowsapi.repositories.EmployeeDataRepository;
+import com.firstcateringlimited.bowsapi.repositories.EmployeePersonalDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +20,7 @@ public class BowsApiServiceTest {
     BowsApiService bowsApiService;
 
     @Mock
-    EmployeeDataRepository employeeDataRepository;
+    EmployeePersonalDataRepository employeePersonalDataRepository;
 
     @Test(expected = IDFormatException.class)
     public void whenCheckIfRegisteredPassedATooShortId_thenExceptionIsThrown() throws IDFormatException{
@@ -46,7 +46,7 @@ public class BowsApiServiceTest {
         String id = "asdfjklpqwerui";
         String expectedMessage = "Card not registered. Please enter your registration details now.";
 
-        Mockito.when(employeeDataRepository.findById(id)).thenReturn(repositoryResponse);
+        Mockito.when(employeePersonalDataRepository.findById(id)).thenReturn(repositoryResponse);
 
 
         RegisteredCheckResponse results = bowsApiService.checkIfRegistered(id);
@@ -64,7 +64,7 @@ public class BowsApiServiceTest {
                 + employeePersonalDataEntity.getFirst_name()
                 + ". Please enter your four digit PIN";
 
-        Mockito.when(employeeDataRepository.findById(id)).thenReturn(repositoryResponse);
+        Mockito.when(employeePersonalDataRepository.findById(id)).thenReturn(repositoryResponse);
 
 
         RegisteredCheckResponse results = bowsApiService.checkIfRegistered(id);
