@@ -3,6 +3,7 @@ package com.firstcateringlimited.bowsapi.controllers;
 import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
 import com.firstcateringlimited.bowsapi.models.NewEmployeeData;
 import com.firstcateringlimited.bowsapi.responses.EndSessionResponse;
+import com.firstcateringlimited.bowsapi.responses.RegisterCardResponse;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import com.firstcateringlimited.bowsapi.services.BowsApiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,12 @@ public class BowsApiController {
     }
 
     @PostMapping (value = "registercard")
-    public ResponseEntity<String> registerNewEmployeeId(
+    public ResponseEntity<RegisterCardResponse> registerNewEmployeeId(
             @Valid
             @RequestBody NewEmployeeData newEmployeeData
     ) {
         bowsApiService.registerNewEmployeeId(newEmployeeData);
-        return new ResponseEntity<>("Registration Complete", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new RegisterCardResponse(), HttpStatus.ACCEPTED);
     }
 
 
