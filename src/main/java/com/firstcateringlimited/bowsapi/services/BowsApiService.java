@@ -49,17 +49,10 @@ public class BowsApiService {
     public ResponseEntity<SignInResponse> signIn(EmployeePINEntity employeePINEntity) {
         Optional<EmployeePINEntity> dbEntity = employeePINRepository.findById(employeePINEntity.getId());
 
+        boolean isResultFound = dbEntity.isPresent();
+        boolean isCorrectPin = dbEntity.isPresent() && (dbEntity.get().getPin() == employeePINEntity.getPin());
 
-        // check if optional is empty, means that the person has not registered
-
-        // if not empty follow the path
-
-        // make a call to the repository using employee Pin from entity
-        // compare with the employeePINEntity passed in
-        // format response based on that and return it
-
-
-        return new ResponseEntity<>(new SignInResponse(), HttpStatus.ACCEPTED);
+        return responseHelperClass.formatSignInResponse(isResultFound, isCorrectPin);
     }
 
     private EmployeePersonalDataEntity createEmployeePersonalDataEntity (NewEmployeeModel newEmployeeModel) {

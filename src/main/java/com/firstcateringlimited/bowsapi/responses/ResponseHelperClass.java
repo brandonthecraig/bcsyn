@@ -1,6 +1,9 @@
 package com.firstcateringlimited.bowsapi.responses;
 
+import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -32,4 +35,20 @@ public class ResponseHelperClass {
     }
 
 
+    public ResponseEntity<SignInResponse> formatSignInResponse(boolean isResultFound, boolean isCorrectPin) {
+        SignInResponse signInResponse = new SignInResponse();
+        signInResponse.setPinVerified(isCorrectPin);
+        signInResponse.setUserFound(isResultFound);
+
+        if (!isResultFound) {
+            signInResponse.setSignInMessage("Card has not been registered. Unable to sign in.");
+        } else if (isCorrectPin) {
+            signInResponse.setSignInMessage("Correct PIN. Access granted.");
+        } else  {
+            signInResponse.setSignInMessage("Incorrect PIN. Please re-enter your pin");
+        }
+
+        return new ResponseEntity<>(signInResponse, HttpStatus.ACCEPTED);
+
+    }
 }
