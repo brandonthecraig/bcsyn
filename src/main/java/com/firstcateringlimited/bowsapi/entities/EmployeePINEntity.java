@@ -13,6 +13,8 @@ import javax.validation.constraints.*;
 public class EmployeePINEntity {
 
     @Id
+    @Size(max = 16, min = 16, message = "Employee Id can only be 16 characters long")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Employee Id can only be alphanumeric")
     private String id;
 
     @NotNull
