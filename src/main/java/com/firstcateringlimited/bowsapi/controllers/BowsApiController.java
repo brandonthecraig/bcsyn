@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -20,8 +21,13 @@ public class BowsApiController {
     @Autowired
     private BowsApiService bowsApiService;
 
+    @Autowired
+    private HttpSession httpSession;
+
+
     @GetMapping (value = "endsession")
     public ResponseEntity<EndSessionResponse> endSession() {
+        // invalidates session regardless of which employee taps
         return new ResponseEntity<>(new EndSessionResponse(), HttpStatus.OK);
     }
 
@@ -33,6 +39,9 @@ public class BowsApiController {
         if (!registeredCheckResponse.isCorrectIdFormat()){
             return new ResponseEntity<>(registeredCheckResponse, HttpStatus.BAD_REQUEST);
         } else {
+            // new http session
+            // set employee
+            // set maxInactiveInterval
             return new ResponseEntity<>(registeredCheckResponse, HttpStatus.OK);
         }
     }
@@ -42,6 +51,8 @@ public class BowsApiController {
             @Valid
             @RequestBody NewEmployeeModel newEmployeeModel
     ) {
+        // change post request to use session info?
+        // see if you can get away with modeling incomplete info and then fill in employee card
         bowsApiService.registerNewEmployeeId(newEmployeeModel);
         return new ResponseEntity<>(new RegisterCardResponse(), HttpStatus.ACCEPTED);
     }
@@ -51,6 +62,8 @@ public class BowsApiController {
             @Valid
             @RequestBody EmployeePINEntity employeePINEntity
             ){
+        // change post request to use session info?
+        // model incomplete info then fill in employee card
         return bowsApiService.signIn(employeePINEntity);
     }
 
