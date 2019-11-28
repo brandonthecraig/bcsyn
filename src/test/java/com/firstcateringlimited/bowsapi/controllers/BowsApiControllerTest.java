@@ -62,7 +62,8 @@ public class BowsApiControllerTest {
                     .accept(MediaType.APPLICATION_JSON)
                     .content(json)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .characterEncoding("utf-8"))
+                    .characterEncoding("utf-8")
+                    .sessionAttr("id", "andiwlskeidowp29"))
                     .andExpect(status().isAccepted());
     }
 
@@ -154,7 +155,6 @@ public class BowsApiControllerTest {
 
     public NewEmployeeModel buildNewEmployeeData(){
         NewEmployeeModel newEmployeeModel = new NewEmployeeModel();
-        newEmployeeModel.setId("ajsiwkd3d938euri");
         newEmployeeModel.setEmail("test@test.ca");
         newEmployeeModel.setFirstName("FirstTest");
         newEmployeeModel.setLastName("LastTest");

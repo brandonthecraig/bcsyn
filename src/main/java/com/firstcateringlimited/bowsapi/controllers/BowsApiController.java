@@ -34,7 +34,6 @@ public class BowsApiController {
     public ResponseEntity<RegisteredCheckResponse> checkIfRegistered(
             @PathVariable("employeeId") String employeeId) {
         RegisteredCheckResponse registeredCheckResponse = bowsApiService.checkIfRegistered(employeeId);
-
         if (!registeredCheckResponse.isCorrectIdFormat()){
             return new ResponseEntity<>(registeredCheckResponse, HttpStatus.BAD_REQUEST);
         } else {
@@ -49,9 +48,10 @@ public class BowsApiController {
             @Valid
             @RequestBody NewEmployeeModel newEmployeeModel
     ) {
-        // add null check later on in case someone gets to this place without a session variable
-        // change post request to use session info?
-        // see if you can get away with modeling incomplete info and then fill in employee card
+        newEmployeeModel.setId((String) httpSession.getAttribute("id"));
+        if(newEmployeeModel.getId() == null) {
+            return new ResponseEntity<>(new RegisterCardResponse(), HttpStatus.UNAUTHORIZED);
+        }
         bowsApiService.registerNewEmployeeId(newEmployeeModel);
         return new ResponseEntity<>(new RegisterCardResponse(), HttpStatus.ACCEPTED);
     }

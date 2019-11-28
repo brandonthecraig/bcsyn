@@ -7,8 +7,7 @@ import javax.validation.constraints.*;
 @Data
 public class NewEmployeeModel {
 
-    @NotNull
-    @Size(max = 16, min = 16, message = "Employee Id can only be 14 characters long")
+    @Size(max = 16, min = 16, message = "Employee Id can only be 16 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Employee Id can only be alphanumeric")
     private String id;
 
