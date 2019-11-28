@@ -5,6 +5,7 @@ import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
 import com.firstcateringlimited.bowsapi.services.BowsApiService;
 import com.google.gson.Gson;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class BowsApiControllerTest {
     @Test
     public void whenRegisterCardApiCalledWithIdWithTooShortOfString_thenReturnsBadRequest() throws Exception {
         NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
-        newEmployeeModel.setId("a28keidsdnbes");
+        newEmployeeModel.setId("a28kesdnbes");
         String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
@@ -96,7 +97,8 @@ public class BowsApiControllerTest {
     @Test
     public void whenRegisterCardApiCalledWithIdWithRightLengthButNonAlphaNumericCharacters_thenReturnsBadRequest() throws Exception {
         NewEmployeeModel newEmployeeModel = buildNewEmployeeData();
-        newEmployeeModel.setId("!andkeilsowp29");
+        String badId = "!andkeils7jowp29";
+        newEmployeeModel.setId(badId);
         String json = gson.toJson(newEmployeeModel);
 
         mvc.perform(MockMvcRequestBuilders.post("/registercard")
@@ -105,6 +107,7 @@ public class BowsApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8"))
                 .andExpect(status().isBadRequest());
+        Assertions.assertEquals(16, badId.length());
     }
 
     @Test
@@ -151,7 +154,7 @@ public class BowsApiControllerTest {
 
     public NewEmployeeModel buildNewEmployeeData(){
         NewEmployeeModel newEmployeeModel = new NewEmployeeModel();
-        newEmployeeModel.setId("ajsiwkd938euri");
+        newEmployeeModel.setId("ajsiwkd3d938euri");
         newEmployeeModel.setEmail("test@test.ca");
         newEmployeeModel.setFirstName("FirstTest");
         newEmployeeModel.setLastName("LastTest");

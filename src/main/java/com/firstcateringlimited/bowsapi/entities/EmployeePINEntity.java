@@ -14,8 +14,8 @@ public class EmployeePINEntity {
 
     @Id
     @NotNull
-    @Size(max = 14, min = 14, message = "Employee Id can only be 14 characters long")
-    @Pattern(regexp = "[a-zA-Z0-9]+", message = "Employee Id can only be alphanumeric")
+    @Size(max = 16, min = 16, message = "Employee Id can only be 14 characters long")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Employee Id can only be alphanumeric")
     private String id;
 
     @NotNull

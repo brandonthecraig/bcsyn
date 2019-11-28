@@ -36,7 +36,7 @@ public class BowsApiService {
     }
 
     private boolean isIdFormattedCorrectly(String id) {
-        return (id.length()==14 && id.matches("^[a-zA-Z0-9]*$"));
+        return (id.length()==16 && id.matches("^[a-zA-Z0-9]*$"));
     }
 
     public void registerNewEmployeeId(NewEmployeeModel newEmployeeModel) {
