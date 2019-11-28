@@ -24,10 +24,9 @@ public class BowsApiController {
     @Autowired
     private HttpSession httpSession;
 
-
     @GetMapping (value = "endsession")
     public ResponseEntity<EndSessionResponse> endSession() {
-        // invalidates session regardless of which employee taps
+        httpSession.invalidate();
         return new ResponseEntity<>(new EndSessionResponse(), HttpStatus.OK);
     }
 
@@ -39,9 +38,8 @@ public class BowsApiController {
         if (!registeredCheckResponse.isCorrectIdFormat()){
             return new ResponseEntity<>(registeredCheckResponse, HttpStatus.BAD_REQUEST);
         } else {
-            // new http session
-            // set employee
-            // set maxInactiveInterval
+            httpSession.setAttribute("id", employeeId);
+            httpSession.setMaxInactiveInterval(180);
             return new ResponseEntity<>(registeredCheckResponse, HttpStatus.OK);
         }
     }
@@ -51,6 +49,7 @@ public class BowsApiController {
             @Valid
             @RequestBody NewEmployeeModel newEmployeeModel
     ) {
+        // add null check later on in case someone gets to this place without a session variable
         // change post request to use session info?
         // see if you can get away with modeling incomplete info and then fill in employee card
         bowsApiService.registerNewEmployeeId(newEmployeeModel);
@@ -62,8 +61,10 @@ public class BowsApiController {
             @Valid
             @RequestBody EmployeePINEntity employeePINEntity
             ){
-        // change post request to use session info?
-        // model incomplete info then fill in employee card
+        employeePINEntity.setId((String) httpSession.getAttribute("id"));
+        if (employeePINEntity.getId() ==null) {
+            return new ResponseEntity<>(new SignInResponse(), HttpStatus.UNAUTHORIZED);
+        }
         return bowsApiService.signIn(employeePINEntity);
     }
 
