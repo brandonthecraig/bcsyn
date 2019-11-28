@@ -6,7 +6,7 @@ import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePINRepository;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePersonalDataRepository;
 import com.firstcateringlimited.bowsapi.responses.RegisteredCheckResponse;
-import com.firstcateringlimited.bowsapi.responses.ResponseHelperClass;
+import com.firstcateringlimited.bowsapi.responses.ResponseHelper;
 import com.firstcateringlimited.bowsapi.responses.SignInResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,15 +24,15 @@ public class BowsApiService {
     private EmployeePINRepository employeePINRepository;
 
     @Autowired
-    private ResponseHelperClass responseHelperClass;
+    private ResponseHelper responseHelper;
 
 
     public RegisteredCheckResponse checkIfRegistered(String employeeId) {
         if (!isIdFormattedCorrectly(employeeId)) {
-            return responseHelperClass.formatBadRequestRegisteredCheckResponse();
+            return responseHelper.formatBadRequestRegisteredCheckResponse();
         }
         Optional <EmployeePersonalDataEntity> employeeDataEntity = employeePersonalDataRepository.findById(employeeId);
-        return responseHelperClass.formatRegisteredCheckResponse(employeeDataEntity);
+        return responseHelper.formatRegisteredCheckResponse(employeeDataEntity);
     }
 
     private boolean isIdFormattedCorrectly(String id) {
@@ -50,7 +50,7 @@ public class BowsApiService {
         boolean isResultFound = dbEntity.isPresent();
         boolean isCorrectPin = dbEntity.isPresent() && (dbEntity.get().getPin() == employeePINEntity.getPin());
 
-        return responseHelperClass.formatSignInResponse(isResultFound, isCorrectPin);
+        return responseHelper.formatSignInResponse(isResultFound, isCorrectPin);
     }
 
     private EmployeePersonalDataEntity createEmployeePersonalDataEntity (NewEmployeeModel newEmployeeModel) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class ResponseHelperClass {
+public class ResponseHelper {
 
     public RegisteredCheckResponse formatRegisteredCheckResponse(Optional<EmployeePersonalDataEntity> employeePersonalDataEntity) {
         RegisteredCheckResponse registeredCheckResponse = new RegisteredCheckResponse();
