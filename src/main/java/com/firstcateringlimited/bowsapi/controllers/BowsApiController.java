@@ -1,6 +1,6 @@
 package com.firstcateringlimited.bowsapi.controllers;
 
-import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
+import com.firstcateringlimited.bowsapi.entities.EmployeePinEntity;
 import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.responses.EndSessionResponse;
 import com.firstcateringlimited.bowsapi.responses.RegisterCardResponse;
@@ -59,7 +59,7 @@ public class BowsApiController {
     @PostMapping (value = "signin", consumes = "application/json", produces = "application/json")
     public ResponseEntity<SignInResponse> signInEmployee(
             @Valid
-            @RequestBody EmployeePINEntity employeePINEntity
+            @RequestBody EmployeePinEntity employeePINEntity
             ){
         employeePINEntity.setId((String) httpSession.getAttribute("id"));
         if (employeePINEntity.getId() ==null) {

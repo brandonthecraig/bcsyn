@@ -1,7 +1,7 @@
 package com.firstcateringlimited.bowsapi.repositories;
 
-import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
+import com.firstcateringlimited.bowsapi.entities.EmployeePinEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EmployeePINRepository extends JpaRepository <EmployeePINEntity, String> {
+public interface EmployeePINRepository extends JpaRepository <EmployeePinEntity, String> {
 }

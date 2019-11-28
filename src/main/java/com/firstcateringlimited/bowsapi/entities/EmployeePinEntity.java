@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 @Entity
 @Data
 @Table(name = "employee_pin")
-public class EmployeePINEntity {
+public class EmployeePinEntity {
 
     @Id
     @Size(max = 16, min = 16, message = "Employee Id can only be 16 characters long")

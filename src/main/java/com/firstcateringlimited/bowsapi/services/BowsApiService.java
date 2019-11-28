@@ -1,6 +1,6 @@
 package com.firstcateringlimited.bowsapi.services;
 
-import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
+import com.firstcateringlimited.bowsapi.entities.EmployeePinEntity;
 import com.firstcateringlimited.bowsapi.entities.EmployeePersonalDataEntity;
 import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.repositories.EmployeePINRepository;
@@ -44,8 +44,8 @@ public class BowsApiService {
         employeePINRepository.saveAndFlush(createEmployeePINEntity(newEmployeeModel));
     }
 
-    public ResponseEntity<SignInResponse> signIn(EmployeePINEntity employeePINEntity) {
-        Optional<EmployeePINEntity> dbEntity = employeePINRepository.findById(employeePINEntity.getId());
+    public ResponseEntity<SignInResponse> signIn(EmployeePinEntity employeePINEntity) {
+        Optional<EmployeePinEntity> dbEntity = employeePINRepository.findById(employeePINEntity.getId());
 
         boolean isResultFound = dbEntity.isPresent();
         boolean isCorrectPin = dbEntity.isPresent() && (dbEntity.get().getPin() == employeePINEntity.getPin());
@@ -63,8 +63,8 @@ public class BowsApiService {
         return employeePersonalDataEntity;
     }
 
-    private EmployeePINEntity createEmployeePINEntity (NewEmployeeModel newEmployeeModel) {
-        EmployeePINEntity employeePINEntity = new EmployeePINEntity();
+    private EmployeePinEntity createEmployeePINEntity (NewEmployeeModel newEmployeeModel) {
+        EmployeePinEntity employeePINEntity = new EmployeePinEntity();
         employeePINEntity.setId(newEmployeeModel.getId());
         employeePINEntity.setPin(newEmployeeModel.getPin());
         return employeePINEntity;
