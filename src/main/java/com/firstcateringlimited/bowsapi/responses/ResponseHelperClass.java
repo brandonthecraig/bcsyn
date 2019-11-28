@@ -12,12 +12,22 @@ public class ResponseHelperClass {
 
     public RegisteredCheckResponse formatRegisteredCheckResponse(Optional<EmployeePersonalDataEntity> employeePersonalDataEntity) {
         RegisteredCheckResponse registeredCheckResponse = new RegisteredCheckResponse();
+        registeredCheckResponse.setCorrectIdFormat(true);
         if (employeePersonalDataEntity.isPresent()){
             setSuccessfulRegisteredCheckResponse(registeredCheckResponse, employeePersonalDataEntity);
         }
         else {
             setUnsuccessfulRegisteredCheckResponse(registeredCheckResponse);
         }
+        return registeredCheckResponse;
+    }
+
+
+    public RegisteredCheckResponse formatBadRequestRegisteredCheckResponse() {
+        RegisteredCheckResponse registeredCheckResponse = new RegisteredCheckResponse();
+        registeredCheckResponse.setCorrectIdFormat(false);
+        registeredCheckResponse.setRegistrationVerified(false);
+        registeredCheckResponse.setWelcomeMessage("Please scan a Bows Formula One High Performance employee card.");
         return registeredCheckResponse;
     }
 
@@ -50,4 +60,5 @@ public class ResponseHelperClass {
         return new ResponseEntity<>(signInResponse, HttpStatus.ACCEPTED);
 
     }
+
 }

@@ -1,7 +1,6 @@
 package com.firstcateringlimited.bowsapi.controllers;
 
 import com.firstcateringlimited.bowsapi.entities.EmployeePINEntity;
-import com.firstcateringlimited.bowsapi.exceptions.IDFormatException;
 import com.firstcateringlimited.bowsapi.models.NewEmployeeModel;
 import com.firstcateringlimited.bowsapi.responses.EndSessionResponse;
 import com.firstcateringlimited.bowsapi.responses.RegisterCardResponse;
@@ -28,8 +27,14 @@ public class BowsApiController {
 
     @GetMapping (value = "registeredcheck/{employeeId}")
     public ResponseEntity<RegisteredCheckResponse> checkIfRegistered(
-            @PathVariable("employeeId") String employeeId) throws IDFormatException {
-        return new ResponseEntity<>(bowsApiService.checkIfRegistered(employeeId), HttpStatus.OK);
+            @PathVariable("employeeId") String employeeId) {
+        RegisteredCheckResponse registeredCheckResponse = bowsApiService.checkIfRegistered(employeeId);
+
+        if (!registeredCheckResponse.isCorrectIdFormat()){
+            return new ResponseEntity<>(registeredCheckResponse, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(registeredCheckResponse, HttpStatus.OK);
+        }
     }
 
     @PostMapping (value = "registercard", consumes = "application/json", produces = "application/json")
@@ -48,7 +53,5 @@ public class BowsApiController {
             ){
         return bowsApiService.signIn(employeePINEntity);
     }
-
-
 
 }
