@@ -34,7 +34,7 @@ public class BowsApiControllerTest {
     private Gson gson = new Gson();
 
     @Test
-    public void whenEndSessionApiCalled_thenReturnsExpectedResults() throws Exception {
+    public void whenEndSessionApiCalled_thenReturnsExpectedResults() throws Exception{
         mvc.perform(MockMvcRequestBuilders.get("/endsession").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.endSession").value("true"))
@@ -46,7 +46,8 @@ public class BowsApiControllerTest {
         Mockito.when(bowsApiServiceMock.checkIfRegistered("123")).thenReturn(new RegisteredCheckResponse());
 
         mvc.perform(MockMvcRequestBuilders.get("/registeredcheck/123").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.correctIdFormat").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.registrationVerified").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.welcomeMessage").isEmpty());
     }
