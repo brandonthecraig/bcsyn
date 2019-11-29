@@ -50,7 +50,9 @@ public class BowsApiController {
     ) {
         newEmployeeModel.setId((String) httpSession.getAttribute("id"));
         if(newEmployeeModel.getId() == null) {
-            return new ResponseEntity<>(new RegisterCardResponse(), HttpStatus.UNAUTHORIZED);
+            RegisterCardResponse registerCardResponse = new RegisterCardResponse();
+            registerCardResponse.setRegistrationCompleted(false);
+            return new ResponseEntity<>(registerCardResponse, HttpStatus.UNAUTHORIZED);
         }
         bowsApiService.registerNewEmployeeId(newEmployeeModel);
         return new ResponseEntity<>(new RegisterCardResponse(), HttpStatus.ACCEPTED);
