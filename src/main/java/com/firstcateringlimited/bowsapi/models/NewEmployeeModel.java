@@ -28,6 +28,7 @@ public class NewEmployeeModel {
     @NotNull
     @PositiveOrZero
     @Max(value = 9999, message = "PIN cannot be more than four digits")
+    @Min(value = 1, message = "PIN cannot be 0000")
     private int pin;
 
 
